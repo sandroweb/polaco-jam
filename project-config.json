@@ -1,0 +1,50 @@
+{
+    "title": "Html Template Project",
+    "jslint": {
+        "mainEnabled": true
+    },
+    "uglify": {
+        "beautify": true,
+        "sourceMap": true,
+        "dropConsole": false,
+        "files": {
+            "deploy/assets/scripts/main.min.js": [
+                "sources/assets/scripts/main.js",
+                "sources/assets/scripts/**/*.js",
+                "!sources/assets/scripts/plugins/**/*.js"
+            ]
+        }
+    },
+    "stylus": {
+        "compress": false,
+        "files": {
+            "deploy/assets/css/main.min.css": ["sources/assets/css/main.styl"]
+        }
+    },
+    "urls": {
+        "basePathLocal": "http://localhost/html-template-project/deploy",
+        "baseUrlProduction": "http://www.html-template-project.com.br"
+    },
+    "sprites": {
+        "spritesheet": {
+            "src": "sources/assets/images/spritesheet/*.png",
+            "destImg": "deploy/assets/images/spritesheet.png",
+            "destCSS": "sources/assets/css/spritesheet.styl",
+            "cssTemplate": "sources/assets/css/spritesheet.styl.tpl",
+            "padding": 10,
+            "algorithm": "binary-tree",
+            "imgPath": "CDN_BASEPATH/assets/images/spritesheet.png"
+        }
+    },
+    "toApplyTemplate": [
+        {
+            "title": null,
+            "file": "index.html",
+            "replace": []
+        }
+    ],
+    "templateFiles": [
+        "sources/site/_head-declarations.html",
+        "sources/site/_footer-declarations.html"
+    ]
+}
