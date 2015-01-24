@@ -36,6 +36,10 @@
             };
         }
 
+        function load() {
+            $(video).append('<source src="assets/videos/way.mp4" type="video/mp4">');
+        }
+
         function init() {
             video.muted = true;
             // video.autoplay = true;
@@ -46,7 +50,8 @@
         return {
             init: init,
             loadedCallback: loadedCallback,
-            setLoadedCallback: setLoadedCallback
+            setLoadedCallback: setLoadedCallback,
+            load: load
         };
 
     }());
@@ -59,7 +64,8 @@
             lines = scope.find('.lines'),
             lineTemplate = $('#terminal-line-template').text(),
             cursorTemplate = $('#terminal-cursor-text-template').text(),
-            textAnimationInterval;
+            textAnimationInterval,
+            locked = true;
 
         function show() {
             scope.fadeIn(300);
@@ -67,6 +73,14 @@
 
         function hide() {
             scope.fadeIn(300);
+        }
+
+        function lock() {
+            locked = true;
+        }
+
+        function unlock() {
+            locked = false;
         }
 
         function refreshScroll() {
@@ -92,6 +106,7 @@
         function createLine() {
             lines.append(lineTemplate);
             setLine(null, '');
+            field.val('');
         }
 
         function refreshLine() {
@@ -99,16 +114,18 @@
         }
 
         function addText(txt, callback) {
+            lock();
             textAnimationInterval = setInterval(function () {
-                console.log('##');
                 if (field.val().length === txt.length) {
                     clearInterval(textAnimationInterval);
-                    callback();
+                    createLine();
+                    unlock();
+                    callback(txt);
                 } else {
                     field.val(txt.substr(0, field.val().length + 1));
                     refreshLine();
                 }
-            }, 0.05);
+            }, 20);
         }
 
         function init() {
@@ -121,11 +138,12 @@
                     break;
                 // case 'keypress':
                 case 'keyup':
-                    if (e.which === 13) {
-                        createLine();
-                        field.val('');
-                    } else {
-                        refreshLine();
+                    if (locked === false) {
+                        if (e.which === 13) {
+                            createLine();
+                        } else {
+                            refreshLine();
+                        }
                     }
                     break;
                 }
@@ -149,8 +167,14 @@
     win.onload = function () {
         way.init();
         way.setLoadedCallback(function () {
+            console.log('jkfjhdkfjdhskfjhsk j');
             terminal.init();
         });
+        way.load();
+        console.log('sdjfsdhk');
     };
+
+    win.way = way;
+    win.terminal = terminal;
 
 }(jQuery, window));
