@@ -1,4 +1,7 @@
-HTML Template Project
+Polaco Jam
+
+We are developing to [GGJ 2015](http://globalgamejam.org/).
+
 ===
 
 Dependências do Template
@@ -24,99 +27,6 @@ $ npm install -g grunt-cli
 Na raiz do projeto, instale as dependencias do grunt com este comando
 ```
 $ npm install
-```
-
-
-Configuração inicial
-======
-
-Antes de tudo, você precisará configurar o arquivo `project-config.json`:
-
-```
-"title": "Título do projeto" // Substitui {{{site_title}}} do conteúdo da tag <title>{{{site_title}}}</title> nas páginas que não possuem título próprio.
-"jslint": {
-    "mainEnabled": false // Adiciona ou remove o main.js no jslint
-},
-"uglify": { // Quando o comando " $ grunt production" é utilizado, esses comandos não são respeitados, ficando false, true, true
-    "beautify": true, // Quando true, identa o main.min.js
-    "sourceMap": true, // Quando true, cria o *. file para leitura do console do browser
-    "dropConsole": false, // Quando true, remove todo e qualquer console.log do build do main.min.js
-    "files": { // Ao invés de modificar o Gruntfile, você pode editar a lista de arquivos por aqui mesmo.
-        "deploy/assets/scripts/main.min.js": [
-            "sources/assets/scripts/main.js",
-            "sources/assets/scripts/**/*.js",
-            "!sources/assets/scripts/plugins/**/*.js"
-        ]
-    }
-},
-"stylus": { // Quando o comando " $ grunt production" é utilizado, esses comandos não são respeitados, ficando true
-    "compress": false, // Quando true, comprime o main.min.css
-    "files": { // Ao invés de modificar o Gruntfile, você pode editar a lista de arquivos por aqui mesmo.
-        "deploy/assets/css/main.min.css": ["sources/assets/css/main.styl"]
-    }
-},
-"urls": {
-    "basePathLocal": "http://localhost/html-template-project/deploy", // Basepath utilizado por padrão para o comando "$ grunt deploy"
-    "baseUrlProduction": "http://cdn.html-template-project.com.br" // Item obrigatório, pois essa url é utilizada para comparação para decidir qual Omniture Account utilizar, a de testes ou a de produção.
-},
-"sprites": { // Adiciona esse objeto a task de sprites, para não precisar alterar o Gruntfile.js
-    "spritesheet": {
-        "src": "sources/assets/images/spritesheet/*.png", // pasta onde se encontram os pngs que formarão o sprite
-        "destImg": "deploy/assets/images/spritesheet.png", // Destino do sprite gerado
-        "destCSS": "sources/assets/css/spritesheet.styl", // Destino do Stylus gerado
-        "cssTemplate": "sources/assets/css/spritesheet.styl.tpl", // Template do Stylus
-        "padding": 10, // Espaço entre as imagens no sprite
-        "algorithm": "binary-tree", // Decide a disposição das imagens dentro do sprite: https://github.com/Ensighten/spritesmith#available-packing-algorithms
-        "imgPath": "CDN_BASEPATH/assets/images/spritesheet.png" // Path que será utilizado dentro do Stylus
-    }
-},
-"toApplyTemplate": [ // Lista de arquivos que receberão o template
-    {
-        "title": "Título da página", // Substitui {{{site_title}}} do conteúdo da tag <title>{{{site_title}}}</title> na página em questão.
-        "file": "index.html", // Arquivo que receberá o template, com url relativa ao seguinte caminho: "sources/site/"
-        "replace": [ // Array de objetos informando o que precisará ser substituído na página
-            {
-                "find": "item-1", // Será procurado {{{item-i}}} na página ...
-                "replace": "Nome do item 1" // ... e será substituído por "Nome do item 1".
-            }
-        ]
-    }
-],
-"templateFiles": [ // Lista de arquivos que são utilizados para gerar o template e aplicar nos arquivos selecionados (No array toApplyTemplate) do site.
-    "sources/site/_head-declarations.html",
-    "sources/site/_footer-declarations.html"
-]
-```
-
-Estrutura de arquivos
-======
-```
-deploy
----// Arquivos necessários para rodar o site.
----// Essa pasta está inclusa no .gitignore, pois não há necessidade de versionamento.
-sources
----assets
-------css
----------fonts.styl
----------main.styl // Css principal
----------spritesheet.styl // Gerado pelo spritesmith
----------spritesheet.styl.styl // Template para gerar o spritesheet.styl
----------variables.styl
-------fonts
----------// Todos arquivos de font necessários para rodar o site
-------images
----------spritesheet // Todos arquivos .png que geram o arquivo assets/images/spritesheet.png. Configurável no project-config.json:sprites
-------scripts
----------plugins
-------------// Todo e qualquer js que deve ser declarado antes do main
-------------youtube-player.js // Script responsável pelo player de vídeo do youtube. Mais informações abaixo.
----------main.js // Js principal
----site
-------_footer-declarations.html // Arquivo aplicado no footer que contém declarações necessárias para o projeto.
-------_head-declarations.html // Arquivo aplicado no head que contém declarações necessárias para o projeto.
-------index.html
-------// Quaisquer outras pastas ou arquivos html, json, ou do tipo, necessários para o site
-```
 
 
 Grunt
