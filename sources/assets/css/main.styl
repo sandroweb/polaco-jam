@@ -4,12 +4,27 @@
 @import 'variables'
 @import 'keyframes'
 
+body
+    margin 0
+    padding 0
+    background-color #000
+    
+#way
+    position absolute
+    top 0
+    left 0
+    width 100%
+    height 100%
+    video
+        width 100%
+        height 100%
+
 #terminal
     position relative
     overflow hidden
     width 500px
     height 400px
-    background-color #000
+    background-color rgba(0, 0, 0, .6)
     color #3F0
     font-family 'Courier New'
     font-size 12px
@@ -27,6 +42,7 @@
     .line
         padding 2px 10px
         word-wrap break-word
+        word-break break-word
         .text-content
             position relative
             display inline-block
@@ -42,6 +58,6 @@
             .text-content
                 .cursor
                     display inline-block
-                    animation blink-cursor .5s infinite
+                    animation blink-cursor .5s infinite .3s
                 
                 

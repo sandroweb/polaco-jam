@@ -1,16 +1,73 @@
-/*global document */
-(function ($) {
+/*global document, window */
+(function ($, win) {
 
     'use strict';
 
-    (function terminal() {
+    var way,
+        terminal;
+
+    way = (function () {
+        var scope = $('#way'),
+            video = scope.find('video')[0],
+            loadedCallback;
+            // interval,
+            // intervalTime = 300;
+
+        // function appendTime(time) {
+        //     video.currentTime = video.currentTime + time;
+        // }
+
+        // function stop() {
+        //     clearInterval(interval);
+        // }
+
+        // function play() {
+        //     interval = setInterval(function () {
+        //         appendTime(0.3);
+        //     }, intervalTime);
+        // }
+
+        function setLoadedCallback(fn) {
+            loadedCallback = fn;
+            video.onloadeddata = function () {
+                if (loadedCallback !== undefined) {
+                    loadedCallback();
+                }
+            };
+        }
+
+        function init() {
+            video.muted = true;
+            // video.autoplay = true;
+            video.loop = true;
+            // video.play();
+        }
+
+        return {
+            init: init,
+            loadedCallback: loadedCallback,
+            setLoadedCallback: setLoadedCallback
+        };
+
+    }());
+
+    terminal = (function () {
 
         var scope = $('#terminal'),
             content = $('.content'),
             field = scope.find('.field'),
             lines = scope.find('.lines'),
             lineTemplate = $('#terminal-line-template').text(),
-            cursorTemplate = $('#terminal-cursor-text-template').text();
+            cursorTemplate = $('#terminal-cursor-text-template').text(),
+            textAnimationInterval;
+
+        function show() {
+            scope.fadeIn(300);
+        }
+
+        function hide() {
+            scope.fadeIn(300);
+        }
 
         function refreshScroll() {
             content.css({
@@ -34,12 +91,24 @@
 
         function createLine() {
             lines.append(lineTemplate);
-            // lines.find('.line').eq(getLastIndex()).find('.text-content').html(cursorTemplate);
             setLine(null, '');
         }
 
         function refreshLine() {
             setLine(null, field.val());
+        }
+
+        function addText(txt, callback) {
+            textAnimationInterval = setInterval(function () {
+                console.log('##');
+                if (field.val().length === txt.length) {
+                    clearInterval(textAnimationInterval);
+                    callback();
+                } else {
+                    field.val(txt.substr(0, field.val().length + 1));
+                    refreshLine();
+                }
+            }, 0.05);
         }
 
         function init() {
@@ -62,10 +131,26 @@
                 }
             });
             createLine();
+
+            addText('Opa! Bom dia! Eler&ecirc;!', function () {
+                console.log('kjsdhfkjshf ksjdhf kjh');
+            });
         }
 
-        init();
+        return {
+            init: init,
+            show: show,
+            hide: hide,
+            addText: addText
+        };
 
     }());
 
-}(jQuery));
+    win.onload = function () {
+        way.init();
+        way.setLoadedCallback(function () {
+            terminal.init();
+        });
+    };
+
+}(jQuery, window));
