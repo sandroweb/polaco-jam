@@ -356,7 +356,7 @@
                         switch (key) {
                         case 'l':
                         case 'r':
-                        case 'f':
+                        case 's':
                             way.setDirection(key);
                             refreshLine();
                             createLine();
