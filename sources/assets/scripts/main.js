@@ -49,7 +49,7 @@
             };
             $.post('assets/json/data.json', null, function (r) {
                 steps = r;
-                $(video).append('<source src="assets/videos/intro.mp4" type="video/mp4">');
+                $(video).append('<source src="assets/videos/way.mp4" type="video/mp4">');
             });
         }
 
