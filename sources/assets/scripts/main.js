@@ -242,14 +242,21 @@
             setLine(null, field.val());
         }
 
-        function addText(txt, callback) {
+        function addText(txt, callback, waitTime) {
+            waitTime = waitTime || 0;
             lock();
             textAnimationInterval = setInterval(function () {
                 if (field.val().length === txt.length) {
                     clearInterval(textAnimationInterval);
-                    createLine();
-                    unlock();
-                    callback(txt);
+
+                    function finish () {
+                        createLine();
+                        unlock();
+                        callback(txt);
+                    }
+
+                    setTimeout(finish, waitTime);
+
                 } else {
                     field.val(txt.substr(0, field.val().length + 1));
                     refreshLine();
@@ -264,9 +271,42 @@
         function start() {
             createLine();
 
-            addText('[[[ Pressione a barra de espa&ccedil;o para come&ccedil;ar ]]]', function () {
-                console.log('Aguardando ...');
-            });
+            // addText('[[[ Pressione a barra de espa&ccedil;o para come&ccedil;ar ]]]', function () {
+            //     console.log('Aguardando ...');
+            // });
+
+            var curLine = 0;
+            var lines = [
+                {text: 'Maze v0.5.3.3', time: 100},
+                {text: '------------------------', time: 100},
+                {text: 'Total souls trapped ' + (Math.ceil(Math.random() * 666)) + '.', time: 100},
+                {text: 'Searching imprisoned acquaintances...', time: 1000},
+                {text: '1 person found.', time: 250},
+                {text: 'Connecting to S0ADEX soul...', time: 1200},
+                {text: 'Connection established. Setting soul-driver controller...', time: 100},
+                {text: '------EXPLICAR COMO JOGAR AQUI-----', time: 100},
+                {text: 'Loading video library...', time: 250},
+                {text: 'Establishing image connection...', time: 2500, callback: function () {
+                    // Inicia video aqui
+                    
+
+                    // Quando video estive pronto, rodar linah abaixo
+                    curLine < lines.length && nextLine();
+
+                }}
+            ];
+
+            (function nextLine() {
+
+                var lO = lines[curLine];
+                addText(lO.text, lO.callback || function () {
+                    curLine < lines.length && nextLine();
+                }, lO.time);
+
+                curLine += 1;
+
+            })();
+
         }
 
         function restart() {
