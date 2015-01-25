@@ -1,7 +1,7 @@
 {
     "title": "Html Template Project",
     "jslint": {
-        "mainEnabled": true
+        "mainEnabled": false
     },
     "uglify": {
         "beautify": true,
