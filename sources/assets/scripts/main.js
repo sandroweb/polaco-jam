@@ -75,13 +75,16 @@
                     play();
                 });
             } else {
-                terminal.addText('Voc&ecirc; errou!!!', function (txt) {
-                    reset();
-                    setTimeout(function () {
-                        terminal.restart();
-                    }, 800);
+                terminal.addText('[[[ Error - Wrong way ]]]', function (txt) {
+                    terminal.addText('Restarting ................ 100%', function (txt) {
+                        reset();
+                        setTimeout(function () {
+                            terminal.restart();
+                        }, 800);
+                        return txt;
+                    }, 2000);
                     return txt;
-                });
+                }, 2000);
             }
         }
 
@@ -125,7 +128,7 @@
 
         function init(callback) {
             loadedCallback = callback;
-            video.muted = true;
+            video.muted = false;
             video.loop = true;
             video.ontimeupdate = ontimeupdate;
             load();
@@ -163,7 +166,7 @@
         }
 
         function play() {
-            video.currentTime = 40;
+            // video.currentTime = 40;
             video.play();
         }
 
