@@ -50,9 +50,11 @@
 
         function ontimeupdate() {
             var step = getCurrStep();
-            console.log(video.currentTime + ' >= ' + step.time, ' $$$$ ', currStepIndex);
+            console.log(step);
+            // console.log(video.currentTime + ' >= ' + step.time, ' $$$$ ', currStepIndex);
             if (video.currentTime >= step.time) {
                 video.pause();
+                terminal.unlock();
             }
         }
 
@@ -97,6 +99,7 @@
         }
 
         function unlock() {
+            field.val('');
             locked = false;
         }
 
@@ -156,15 +159,17 @@
                 // case 'keypress':
                 case 'keyup':
                     var key = String.fromCharCode(e.keyCode).toLowerCase();
-                    switch (key) {
-                    case 'e':
-                    case 'd':
-                    case 'f':
-                        way.setDirection(key);
-                        createLine();
-                        break;
-                    }
                     if (locked === false) {
+                        switch (key) {
+                        case 'e':
+                        case 'd':
+                        case 'f':
+                            way.setDirection(key);
+                            refreshLine();
+                            createLine();
+                            lock();
+                            break;
+                        }
                         if (e.which === 13) {
                             createLine();
                         } else {
