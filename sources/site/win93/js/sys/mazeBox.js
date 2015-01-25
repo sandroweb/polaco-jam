@@ -45,7 +45,7 @@ WIN95.mazeBox.prototype = {
 			'position': 'absolute',
 			'left': position[0],
 			'top':  position[1],
-			'width': '915px',
+			'width': '877px',
 			'height': '515px'
 		})
 		.mousedown()

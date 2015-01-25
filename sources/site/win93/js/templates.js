@@ -62,7 +62,7 @@ WIN95.templates = {
 			+ '</div>'
 		+ '</div>'
 		+ '<div class="dialogBoxContents">'
-			+ '<iframe src="cmd.html" scrolling="no" style="width: 911px;height: 491px;"></iframe>'
+			+ '<iframe src="cmd.html" scrolling="no" style="width: 873px;height: 491px;"></iframe>'
 		+ '</div>'
 	+ '</div>',
 
