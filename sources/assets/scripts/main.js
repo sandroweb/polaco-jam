@@ -15,7 +15,7 @@
             steps,
             currStepIndex = -1,
             backgroundSound,
-            totalTime = 60 * 4,
+            totalTime = 10,
             currentTime = 0,
             timeInterval;
 
@@ -53,8 +53,12 @@
             });
         }
 
-        function reset() {
+        function resetInterval() {
             clearInterval(timeInterval);
+        }
+
+        function reset() {
+            resetInterval();
             currentTime = 0;
             currStepIndex = -1;
             video.currentTime = 0;
@@ -83,6 +87,8 @@
 
         function ontimeupdate() {
             var step = getCurrStep();
+            // console.log(currStepIndex, step, steps);
+            // video.pause();
             if (video.currentTime >= step.time) {
                 if (video.paused === false) {
                     video.pause();
@@ -96,6 +102,7 @@
         }
 
         function timeEnded() {
+            video.pause();
             terminal.addText('Acabou o tempo!!!', function () {
                 console.log('kjshfhkjd fsjh kjs dfkdfsh');
             });
@@ -110,6 +117,7 @@
                     currentTime = currentTime + 1;
                     // backgroundSound.volume(currentTime * maxVolume / totalTime);
                 } else {
+                    resetInterval();
                     timeEnded();
                 }
             }, 1000);
@@ -130,6 +138,7 @@
             getCurrStepIndex: function () {
                 return currStepIndex;
             },
+            play: play,
             start: start
         };
 
@@ -190,15 +199,27 @@
             textAnimationInterval,
             locked = true;
 
+        function isVisible() {
+            return scope.is(':visible');
+        }
+
         function startFocus() {
             field.focus();
         }
 
         function show(callback) {
-            scope.fadeIn(300, function () {
-                startFocus();
-                callback();
-            });
+            if (isVisible() === false) {
+                scope.fadeIn(300, function () {
+                    startFocus();
+                    if (callback !== undefined) {
+                        callback();
+                    }
+                });
+            } else {
+                if (callback !== undefined) {
+                    callback();
+                }
+            }
         }
 
         function hide(callback) {
@@ -243,6 +264,7 @@
         }
 
         function addText(txt, callback, waitTime) {
+            show();
             waitTime = waitTime || 0;
             lock();
             textAnimationInterval = setInterval(function () {
@@ -286,9 +308,10 @@
                 {text: 'Connection established. Setting soul-driver controller...', time: 100},
                 {text: '------EXPLICAR COMO JOGAR AQUI-----', time: 100},
                 {text: 'Loading video library...', time: 250},
-                {text: 'Establishing image connection...', time: 2500, callback: function () {
+                {text: 'Establishing image connection...', time: 2500},
+                {text: '[[[ PRESS SPACE BAR ]]]', callback: function () {
                     // Inicia video aqui
-                    
+                    // way.start();
 
                     // Quando video estive pronto, rodar linah abaixo
                     curLine < lines.length && nextLine();
@@ -380,6 +403,7 @@
     };
 
     win.way = way;
+    win.intro = intro;
     win.terminal = terminal;
 
 }(jQuery, window));
