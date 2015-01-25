@@ -1,17 +1,19 @@
-/*global document, window */
+/*global document, window, setTimeout */
 (function ($, win) {
 
     'use strict';
 
     var way,
-        terminal;
+        intro,
+        terminal,
+        name = 'mAzE';
 
     way = (function () {
         var scope = $('#way'),
             video = scope.find('video')[0],
             loadedCallback,
             steps,
-            currStepIndex = 0;
+            currStepIndex = -1;
 
         function getCurrStep() {
             return steps[currStepIndex];
@@ -37,25 +39,49 @@
             });
         }
 
+        function reset() {
+            currStepIndex = -1;
+            video.currentTime = 0;
+        }
+
         function setSteps(arr) {
             steps = arr;
         }
 
         function setDirection(direction) {
             if (getCurrStep().direction === direction) {
-                currStepIndex = currStepIndex + 1;
-                play();
+                terminal.hide(function () {
+                    currStepIndex = currStepIndex + 1;
+                    play();
+                });
+            } else {
+                terminal.addText('Voc&ecirc; errou!!!', function (txt) {
+                    reset();
+                    setTimeout(function () {
+                        terminal.restart();
+                    }, 800);
+                    return txt;
+                });
             }
         }
 
         function ontimeupdate() {
             var step = getCurrStep();
-            console.log(step);
-            // console.log(video.currentTime + ' >= ' + step.time, ' $$$$ ', currStepIndex);
             if (video.currentTime >= step.time) {
-                video.pause();
-                terminal.unlock();
+                if (video.paused === false) {
+                    video.pause();
+                    terminal.show(function () {
+                        terminal.addText(step.description, function (txt) {
+                            return txt;
+                        });
+                    });
+                }
             }
+        }
+
+        function start() {
+            currStepIndex = 0;
+            play();
         }
 
         function init() {
@@ -70,9 +96,27 @@
             setDirection: setDirection,
             loadedCallback: loadedCallback,
             setLoadedCallback: setLoadedCallback,
-            load: load
+            load: load,
+            getCurrStepIndex: function () {
+                return currStepIndex;
+            },
+            start: start
         };
 
+    }());
+
+    intro = (function () {
+        var scope = $('#intro');
+
+        function hide(callback) {
+            scope.fadeOut(300, function () {
+                callback();
+            });
+        }
+
+        return {
+            hide: hide
+        };
     }());
 
     terminal = (function () {
@@ -86,12 +130,21 @@
             textAnimationInterval,
             locked = true;
 
-        function show() {
-            scope.fadeIn(300);
+        function startFocus() {
+            field.focus();
         }
 
-        function hide() {
-            scope.fadeIn(300);
+        function show(callback) {
+            scope.fadeIn(300, function () {
+                startFocus();
+                callback();
+            });
+        }
+
+        function hide(callback) {
+            scope.fadeOut(300, function () {
+                callback();
+            });
         }
 
         function lock() {
@@ -109,17 +162,13 @@
             });
         }
 
-        function startFocus() {
-            field.focus();
-        }
-
         function getLastIndex() {
             return lines.find('.line').length - 1;
         }
 
         function setLine(index, content) {
             index = index || getLastIndex();
-            lines.find('.line').eq(index).find('.text-content').html(content + cursorTemplate);
+            lines.find('.line').eq(index).find('.text-content').html(name + ':/> ' + content + cursorTemplate);
             refreshScroll();
         }
 
@@ -148,10 +197,26 @@
             }, 20);
         }
 
+        function reset() {
+            lines.html('');
+        }
+
+        function start() {
+            createLine();
+
+            addText('[[[ Pressione a barra de espa&ccedil;o para come&ccedil;ar ]]]', function () {
+                console.log('Aguardando ...');
+            });
+        }
+
+        function restart() {
+            reset();
+            start();
+        }
+
         function init() {
             startFocus();
             field.on('focusout keypress keyup', function (e) {
-                startFocus();
                 switch (e.type) {
                 case 'focusout':
                     startFocus();
@@ -159,6 +224,7 @@
                 // case 'keypress':
                 case 'keyup':
                     var key = String.fromCharCode(e.keyCode).toLowerCase();
+                    console.log(locked);
                     if (locked === false) {
                         switch (key) {
                         case 'e':
@@ -169,21 +235,19 @@
                             createLine();
                             lock();
                             break;
-                        }
-                        if (e.which === 13) {
-                            createLine();
-                        } else {
-                            refreshLine();
+                        case ' ':
+                            if (way.getCurrStepIndex() === -1) {
+                                hide(function () {
+                                    intro.hide(way.start);
+                                });
+                            }
+                            break;
                         }
                     }
                     break;
                 }
             });
-            createLine();
-
-            addText('Opa! Bom dia! Eler&ecirc;!', function () {
-                console.log('kjsdhfkjshf ksjdhf kjh');
-            });
+            start();
         }
 
         return {
@@ -192,7 +256,8 @@
             hide: hide,
             addText: addText,
             lock: lock,
-            unlock: unlock
+            unlock: unlock,
+            restart: restart
         };
 
     }());
