@@ -1,4 +1,4 @@
-/*global document, window, setTimeout */
+/*global document, window, setTimeout, Howl */
 (function ($, win) {
 
     'use strict';
@@ -13,7 +13,11 @@
             video = scope.find('video')[0],
             loadedCallback,
             steps,
-            currStepIndex = -1;
+            currStepIndex = -1,
+            backgroundSound,
+            totalTime = 60 * 4,
+            currentTime = 0,
+            timeInterval;
 
         function getCurrStep() {
             return steps[currStepIndex];
@@ -23,23 +27,35 @@
             video.play();
         }
 
-        function setLoadedCallback(fn) {
-            loadedCallback = fn;
-            video.onloadeddata = function () {
-                if (loadedCallback !== undefined) {
-                    loadedCallback();
-                }
-            };
+        function executeLoadedCallback() {
+            loadedCallback();
+            // console.log(loadedCallback);
         }
 
         function load() {
+            video.onloadeddata = function () {
+                var soundLoader = new Howl({
+                    urls: ['assets/sounds/capetatech.mp3'],
+                    autoplay: true,
+                    loop: true,
+                    volume: 0,
+                    onload: function () {
+                        backgroundSound = soundLoader;
+                        executeLoadedCallback();
+                        win.backgroundSound = backgroundSound;
+                        return backgroundSound;
+                    }
+                });
+            };
             $.post('assets/json/data.json', null, function (r) {
                 steps = r;
-                $(video).append('<source src="assets/videos/way.mp4" type="video/mp4">');
+                $(video).append('<source src="assets/videos/intro.mp4" type="video/mp4">');
             });
         }
 
         function reset() {
+            clearInterval(timeInterval);
+            currentTime = 0;
             currStepIndex = -1;
             video.currentTime = 0;
         }
@@ -79,24 +95,38 @@
             }
         }
 
-        function start() {
-            currStepIndex = 0;
-            play();
+        function timeEnded() {
+            terminal.addText('Acabou o tempo!!!', function () {
+                console.log('kjshfhkjd fsjh kjs dfkdfsh');
+            });
         }
 
-        function init() {
+        function start() {
+            // var maxVolume = 0.2;
+            currStepIndex = 0;
+            play();
+            timeInterval = setInterval(function () {
+                if (currentTime < totalTime) {
+                    currentTime = currentTime + 1;
+                    // backgroundSound.volume(currentTime * maxVolume / totalTime);
+                } else {
+                    timeEnded();
+                }
+            }, 1000);
+        }
+
+        function init(callback) {
+            loadedCallback = callback;
             video.muted = true;
             video.loop = true;
             video.ontimeupdate = ontimeupdate;
+            load();
         }
 
         return {
             init: init,
             setSteps: setSteps,
             setDirection: setDirection,
-            loadedCallback: loadedCallback,
-            setLoadedCallback: setLoadedCallback,
-            load: load,
             getCurrStepIndex: function () {
                 return currStepIndex;
             },
@@ -106,7 +136,16 @@
     }());
 
     intro = (function () {
-        var scope = $('#intro');
+        var scope = $('#intro'),
+            video = scope.find('video')[0],
+            loadedCallback;
+
+        function load() {
+            video.onloadeddata = function () {
+                loadedCallback();
+            };
+            $(video).append('<source src="assets/videos/intro.mp4" type="video/mp4">');
+        }
 
         function hide(callback) {
             scope.fadeOut(300, function () {
@@ -114,8 +153,29 @@
             });
         }
 
+        function play() {
+            video.currentTime = 40;
+            video.play();
+        }
+
+        function ontimeupdate() {
+            if (video.currentTime === video.duration) {
+                hide(terminal.init);
+            }
+        }
+
+        function init(callback) {
+            loadedCallback = callback;
+            video.muted = false;
+            video.loop = false;
+            video.ontimeupdate = ontimeupdate;
+            load();
+        }
+
         return {
-            hide: hide
+            init: init,
+            hide: hide,
+            play: play
         };
     }());
 
@@ -262,12 +322,21 @@
 
     }());
 
+    function onLoaded() {
+        intro.play();
+    }
+
     win.onload = function () {
-        way.init();
-        way.setLoadedCallback(function () {
-            terminal.init();
+        intro.init(function () {
+            way.init(function () {
+                onLoaded();
+            });
         });
-        way.load();
+        // way.init();
+        // way.setLoadedCallback(function () {
+        //     terminal.init();
+        // });
+        // way.load();
     };
 
     win.way = way;

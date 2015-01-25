@@ -1,107 +1,42 @@
 [
     {
-        "time": 0,
+        "time": 24,
         "direction": "e",
         "description": "Descrição 1"
     },
     {
-        "time": 4,
+        "time": 43,
         "direction": "d",
         "description": "Descrição 2"
     },
     {
-        "time": 9,
+        "time": 63,
         "direction": "d",
         "description": "Descrição 3"
     },
     {
-        "time": 13,
+        "time": 87,
         "direction": "e",
         "description": "Descrição 4"
     },
     {
-        "time": 17,
+        "time": 106,
         "direction": "e",
         "description": "Descrição 5"
     },
     {
-        "time": 21,
-        "direction": "d",
-        "description": "Descrição 6"
-    },
-    {
-        "time": 24,
+        "time": 150,
         "direction": "f",
         "description": "Descrição 7"
     },
     {
-        "time": 27,
-        "direction": "e",
+        "time": 161,
+        "direction": "d",
         "description": "Descrição 8"
     },
     {
-        "time": 30,
+        "time": 185,
         "direction": "e",
         "description": "Descrição 9"
-    },
-    {
-        "time": 32,
-        "direction": "f",
-        "description": "Descrição 10"
-    },
-    {
-        "time": 34,
-        "direction": "d",
-        "description": "Descrição 11"
-    },
-    {
-        "time": 35,
-        "direction": "d",
-        "description": "Descrição 12"
-    },
-    {
-        "time": 37,
-        "direction": "e",
-        "description": "Descrição 13"
-    },
-    {
-        "time": 38,
-        "direction": "d",
-        "description": "Descrição 14"
-    },
-    {
-        "time": 39,
-        "direction": "d",
-        "description": "Descrição 15"
-    },
-    {
-        "time": 40,
-        "direction": "e",
-        "description": "Descrição 16"
-    },
-    {
-        "time": 41,
-        "direction": "e",
-        "description": "Descrição 17"
-    },
-    {
-        "time": 42,
-        "direction": "f",
-        "description": "Descrição 18"
-    },
-    {
-        "time": 43,
-        "direction": "d",
-        "description": "Descrição 19"
-    },
-    {
-        "time": 44,
-        "direction": "d",
-        "description": "Descrição 20"
-    },
-    {
-        "time": 2,
-        "direction": "e",
-        "description": "Descrição 21"
     }
 ]
