@@ -27,7 +27,11 @@ video
         height 90px
         animation maze-green 7s infinite linear
         background-image url(../images/maze-green.png)
-
+    video
+        opacity 0
+        transition opacity 2s ease
+        &.shown
+            opacity 1
 #intro
     position absolute
     top 0
