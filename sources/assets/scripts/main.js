@@ -88,6 +88,10 @@
             }
         }
 
+        function show() {
+            $(video).addClass('shown');
+        }
+
         function ontimeupdate() {
             var step = getCurrStep();
             // console.log(currStepIndex, step, steps);
@@ -142,7 +146,8 @@
                 return currStepIndex;
             },
             play: play,
-            start: start
+            start: start,
+            show: show
         };
 
     }());
@@ -242,7 +247,7 @@
 
         function refreshScroll() {
             content.css({
-                'margin-top': (lines.height() - scope.height()) * -1
+                'margin-top': ((lines.outerHeight() + 20) - scope.height()) * -1
             });
         }
 
@@ -316,6 +321,7 @@
                 {text: '[[[ PRESS SPACE BAR ]]]', callback: function () {
                     // Inicia video aqui
                     // way.start();
+                    way.show();
 
                     // Quando video estive pronto, rodar linah abaixo
                     curLine < lines.length && nextLine();
