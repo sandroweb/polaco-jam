@@ -9,23 +9,17 @@
     way = (function () {
         var scope = $('#way'),
             video = scope.find('video')[0],
-            loadedCallback;
-            // interval,
-            // intervalTime = 300;
+            loadedCallback,
+            steps,
+            currStepIndex = 0;
 
-        // function appendTime(time) {
-        //     video.currentTime = video.currentTime + time;
-        // }
+        function getCurrStep() {
+            return steps[currStepIndex];
+        }
 
-        // function stop() {
-        //     clearInterval(interval);
-        // }
-
-        // function play() {
-        //     interval = setInterval(function () {
-        //         appendTime(0.3);
-        //     }, intervalTime);
-        // }
+        function play() {
+            video.play();
+        }
 
         function setLoadedCallback(fn) {
             loadedCallback = fn;
@@ -37,18 +31,41 @@
         }
 
         function load() {
-            $(video).append('<source src="assets/videos/way.mp4" type="video/mp4">');
+            $.post('assets/json/data.json', null, function (r) {
+                steps = r;
+                $(video).append('<source src="assets/videos/way.mp4" type="video/mp4">');
+            });
+        }
+
+        function setSteps(arr) {
+            steps = arr;
+        }
+
+        function setDirection(direction) {
+            if (getCurrStep().direction === direction) {
+                currStepIndex = currStepIndex + 1;
+                play();
+            }
+        }
+
+        function ontimeupdate() {
+            var step = getCurrStep();
+            console.log(video.currentTime + ' >= ' + step.time, ' $$$$ ', currStepIndex);
+            if (video.currentTime >= step.time) {
+                video.pause();
+            }
         }
 
         function init() {
             video.muted = true;
-            // video.autoplay = true;
             video.loop = true;
-            // video.play();
+            video.ontimeupdate = ontimeupdate;
         }
 
         return {
             init: init,
+            setSteps: setSteps,
+            setDirection: setDirection,
             loadedCallback: loadedCallback,
             setLoadedCallback: setLoadedCallback,
             load: load
@@ -138,6 +155,15 @@
                     break;
                 // case 'keypress':
                 case 'keyup':
+                    var key = String.fromCharCode(e.keyCode).toLowerCase();
+                    switch (key) {
+                    case 'e':
+                    case 'd':
+                    case 'f':
+                        way.setDirection(key);
+                        createLine();
+                        break;
+                    }
                     if (locked === false) {
                         if (e.which === 13) {
                             createLine();
@@ -159,7 +185,9 @@
             init: init,
             show: show,
             hide: hide,
-            addText: addText
+            addText: addText,
+            lock: lock,
+            unlock: unlock
         };
 
     }());
@@ -167,11 +195,9 @@
     win.onload = function () {
         way.init();
         way.setLoadedCallback(function () {
-            console.log('jkfjhdkfjdhskfjhsk j');
             terminal.init();
         });
         way.load();
-        console.log('sdjfsdhk');
     };
 
     win.way = way;
