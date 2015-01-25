@@ -1,42 +1,42 @@
 [
     {
-        "time": 24,
-        "direction": "e",
+        "time": 15,
+        "direction": "r",
         "description": "Descrição 1"
     },
     {
-        "time": 43,
-        "direction": "d",
+        "time": 25,
+        "direction": "l",
         "description": "Descrição 2"
     },
     {
-        "time": 63,
-        "direction": "d",
+        "time": 45,
+        "direction": "r",
         "description": "Descrição 3"
     },
     {
-        "time": 87,
-        "direction": "e",
+        "time": 65,
+        "direction": "f",
         "description": "Descrição 4"
     },
     {
-        "time": 106,
-        "direction": "e",
+        "time": 89,
+        "direction": "f",
         "description": "Descrição 5"
+    },
+    {
+        "time": 107,
+        "direction": "r",
+        "description": "Descrição 7"
     },
     {
         "time": 150,
         "direction": "f",
-        "description": "Descrição 7"
-    },
-    {
-        "time": 161,
-        "direction": "d",
         "description": "Descrição 8"
     },
     {
-        "time": 185,
-        "direction": "e",
+        "time": 161,
+        "direction": "r",
         "description": "Descrição 9"
     }
 ]

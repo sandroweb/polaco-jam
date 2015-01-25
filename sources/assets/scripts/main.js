@@ -15,7 +15,7 @@
             steps,
             currStepIndex = -1,
             backgroundSound,
-            totalTime = 10,
+            totalTime = 60 * 4,
             currentTime = 0,
             timeInterval;
 
@@ -109,13 +109,13 @@
         }
 
         function start() {
-            // var maxVolume = 0.2;
+            var maxVolume = 0.6;
             currStepIndex = 0;
             play();
             timeInterval = setInterval(function () {
                 if (currentTime < totalTime) {
                     currentTime = currentTime + 1;
-                    // backgroundSound.volume(currentTime * maxVolume / totalTime);
+                    backgroundSound.volume(0.2 + (currentTime * maxVolume / totalTime));
                 } else {
                     resetInterval();
                     timeEnded();
@@ -271,7 +271,7 @@
                 if (field.val().length === txt.length) {
                     clearInterval(textAnimationInterval);
 
-                    function finish () {
+                    function finish() {
                         createLine();
                         unlock();
                         callback(txt);
@@ -308,7 +308,8 @@
                 {text: 'Connection established. Setting soul-driver controller...', time: 100},
                 {text: '------EXPLICAR COMO JOGAR AQUI-----', time: 100},
                 {text: 'Loading video library...', time: 250},
-                {text: 'Establishing image connection...', time: 2500},
+                {text: 'Establishing image connection', time: 2500},
+                {text: '.......................................................... ..................................................................'},
                 {text: '[[[ PRESS SPACE BAR ]]]', callback: function () {
                     // Inicia video aqui
                     // way.start();
@@ -350,8 +351,8 @@
                     console.log(locked);
                     if (locked === false) {
                         switch (key) {
-                        case 'e':
-                        case 'd':
+                        case 'l':
+                        case 'r':
                         case 'f':
                             way.setDirection(key);
                             refreshLine();
