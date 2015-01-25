@@ -39,7 +39,7 @@
     "toApplyTemplate": [
         {
             "title": null,
-            "file": "index.html",
+            "file": "cmd.html",
             "replace": []
         }
     ],
