@@ -314,7 +314,6 @@
                 {text: '1 person found.', time: 250},
                 {text: 'Connecting to S0ADEX soul...', time: 1200},
                 {text: 'Connection established. Setting soul-driver controller...', time: 100},
-                {text: '------EXPLICAR COMO JOGAR AQUI-----', time: 100},
                 {text: 'Loading video library...', time: 250},
                 {text: 'Establishing image connection', time: 2500},
                 {text: '.......................................................... ..................................................................'},
