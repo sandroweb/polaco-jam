@@ -110,7 +110,7 @@
 
         function timeEnded() {
             video.pause();
-            terminal.addText('Acabou o tempo!!!', function () {
+            terminal.addText('TIME IS OVER...', function () {
                 console.log('kjshfhkjd fsjh kjs dfkdfsh');
             });
         }
@@ -298,7 +298,7 @@
             lines.html('');
         }
 
-        function start() {
+        function start(mode) {
             createLine();
 
             // addText('[[[ Pressione a barra de espa&ccedil;o para come&ccedil;ar ]]]', function () {
@@ -328,6 +328,11 @@
                 }}
             ];
 
+            if (mode === 'restart_mode') {
+                lines.splice(1,8);
+                lines[1].text = "Let's start from the beginning."
+            }
+
             (function nextLine() {
 
                 var lO = lines[curLine];
@@ -343,7 +348,7 @@
 
         function restart() {
             reset();
-            start();
+            start('restart_mode');
         }
 
         function init() {
