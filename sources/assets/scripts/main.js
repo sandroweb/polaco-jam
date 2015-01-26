@@ -47,10 +47,51 @@
                     }
                 });
             };
-            $.post('assets/json/data.json', null, function (r) {
-                steps = r;
-                $(video).append('<source src="assets/videos/way.mp4" type="video/mp4">');
-            });
+            //$.post('assets/json/data.json', null, function (r) {
+            steps = [
+                {
+                    "time": 15,
+                    "direction": "s",
+                    "description": "<br>It's just the start of the maze. <br>We have only one way to go. <br> Which path your should we take ? <br> Press 's' to go straight "
+                },
+                {
+                    "time": 25,
+                    "direction": "l",
+                    "description": "<br>Right or Left ? What do we do now ?<br> Press 'l' to go left<br> Press 'r' to go right "
+                },
+                {
+                    "time": 45,
+                    "direction": "r",
+                    "description": "<br>Hmmm... A bifurcation. <br> Press 'l' to go left<br> Press 'r' to go right"
+                },
+                {
+                    "time": 65,
+                    "direction": "r",
+                    "description": "<br>I'm hearing some voices here. Hurry up! <br> Press 'l' to go left<br> Press 'r' to go right"
+                },
+                {
+                    "time": 89,
+                    "direction": "l",
+                    "description": "<br>Something is following me... <br> Press 'l' to go left<br> Press 'r' to go right"
+                },
+                {
+                    "time": 107,
+                    "direction": "r",
+                    "description": "<br>I think we are almost there.<br> Press 'l' to go left<br> Press 'r' to go right"
+                },
+                {
+                    "time": 151,
+                    "direction": "s",
+                    "description": "<br>It's getting closer... HELP! <br> Press 'l' to go left<br> Press 's' to go straight<br> Press 'r' to go right"
+                },
+                {
+                    "time": 161,
+                    "direction": "r",
+                    "description": "<br>I can feel it...<br>Press 'l' to go left<br> Press 's' to go straight<br> Press 'r' to go right"
+                }
+            ];
+            $(video).append('<source src="assets/videos/way.mp4" type="video/mp4">');
+            //});
         }
 
         function resetInterval() {
