@@ -105,6 +105,13 @@
             video.currentTime = 0;
         }
 
+        function restart() {
+            reset();
+            setTimeout(function () {
+                terminal.restart();
+            }, 800);
+        }
+
         function setSteps(arr) {
             steps = arr;
         }
@@ -113,15 +120,15 @@
             if (getCurrStep().direction === direction) {
                 terminal.hide(function () {
                     currStepIndex = currStepIndex + 1;
+                    if (currStepIndex === steps.length) {
+                        resetInterval();
+                    }
                     play();
                 });
             } else {
                 terminal.addText('[[[ Error - Wrong way ]]]', function (txt) {
                     terminal.addText('Restarting ................ 100%', function (txt) {
-                        reset();
-                        setTimeout(function () {
-                            terminal.restart();
-                        }, 800);
+                        restart();
                         return txt;
                     }, 2000);
                     return txt;
@@ -137,14 +144,18 @@
             var step = getCurrStep();
             // console.log(currStepIndex, step, steps);
             // video.pause();
-            if (video.currentTime >= step.time) {
-                if (video.paused === false) {
-                    video.pause();
-                    terminal.show(function () {
-                        terminal.addText(step.description, function (txt) {
-                            return txt;
+            if (video.ended === true) {
+                restart();
+            } else {
+                if (video.currentTime >= step.time) {
+                    if (video.paused === false) {
+                        video.pause();
+                        terminal.show(function () {
+                            terminal.addText(step.description, function (txt) {
+                                return txt;
+                            });
                         });
-                    });
+                    }
                 }
             }
         }
@@ -152,13 +163,15 @@
         function timeEnded() {
             video.pause();
             terminal.addText('TIME IS OVER...', function () {
-                console.log('kjshfhkjd fsjh kjs dfkdfsh');
+                restart();
             });
         }
 
         function start() {
             var maxVolume = 0.6;
             currStepIndex = 0;
+            // video.currentTime = video.duration - 10;
+            // currStepIndex = steps.length;
             play();
             timeInterval = setInterval(function () {
                 if (currentTime < totalTime) {
@@ -174,8 +187,9 @@
         function init(callback) {
             loadedCallback = callback;
             video.muted = false;
-            video.loop = true;
+            video.loop = false;
             video.ontimeupdate = ontimeupdate;
+            video.ended = restart
             load();
         }
 
