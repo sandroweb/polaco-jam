@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<head>
+	<meta charset="UTF-8" />
+	<meta name="author" content="Nadim Kobeissi" />
+	<meta name="format-detection" content="telephone=no" />
+	<meta name="viewport" content="
+		user-scalable=no, initial-scale=1,
+		maximum-scale=1, minimum-scale=1,
+		width=device-width, height=device-height,
+		target-densitydpi=device-dpi"
+	/>
+	<title>Windows 95</title>
+	<link rel="icon" type="image/ico" href="win93/img/icons/shell32_40.ico" />
+	<link rel="stylesheet" type="text/css" href="win93/css/win95.css" />
+	<link rel="stylesheet" type="text/css" href="win93/css/jquery.ui.css" />
+	<script type="application/javascript" src="win93/js/lib/jquery/jquery.js"></script>
+	<script type="application/javascript" src="win93/js/lib/jquery/jquery.ui.js"></script>
+	<script type="application/javascript" src="win93/js/lib/jquery/jquery.elastic.js"></script>
+	<script type="application/javascript" src="win93/js/lib/mustache.js"></script>
+	<script type="application/javascript" src="win93/js/win95.js"></script>
+	<script type="application/javascript" src="win93/js/templates.js"></script>
+	<script type="application/javascript" src="win93/js/sys/icon.js"></script>
+	<script type="application/javascript" src="win93/js/sys/explorer.js"></script>
+	<script type="application/javascript" src="win93/js/sys/dialogBox.js"></script>
+	<script type="application/javascript" src="win93/js/sys/mazeBox.js"></script>
+	<script type="application/javascript" src="win93/js/defaults.js"></script>
+</head>
+<body id="desktop">
+	<div id="desktopIcons">
+	</div>
+	<div id="startMenu">
+		<div id="startMenuLeft"></div>
+		<ul id="startMenuRight">
+			<li data-start-menu="programs">
+				<img src="win93/img/icons/shell32_20.ico" alt="" />
+				<a href="#"><u>P</u>rograms</a>
+				<span class="startMenuArrow">&#x25b6;</span>
+			</li>
+			<li data-start-menu="documents">
+				<img src="win93/img/icons/shell32_21.ico" alt="" />
+				<a href="#"><u>D</u>ocuments</a>
+				<span class="startMenuArrow">&#x25b6;</span>
+			</li>
+			<li data-start-menu="settings">
+				<img src="win93/img/icons/shell32_22.ico" alt="" />
+				<a href="#"><u>S</u>ettings</a>
+				<span class="startMenuArrow">&#x25b6;</span>
+				<ul>
+					<li>Meow</li>
+				</ul>
+			</li>
+			<li data-start-menu="find">
+				<img src="win93/img/icons/shell32_23.ico" alt="" />
+				<a href="#"><u>F</u>ind</a>
+				<span class="startMenuArrow">&#x25b6;</span>
+			</li>
+			<li data-start-menu="help">
+				<img src="win93/img/icons/shell32_24.ico" alt="" />
+				<a href="#"><u>H</u>elp</a>
+			</li>
+			<li data-start-menu="run">
+				<img src="win93/img/icons/shell32_25.ico" alt="" />
+				<a href="#"><u>R</u>un...</a>
+			</li>
+			<hr />
+			<li data-start-menu="shutDown">
+				<img src="win93/img/icons/shell32_28.ico" alt="" />
+				<a href="#">Sh<u>u</u>t Down...</a>
+			</li>
+		</ul>
+	</div>
+	<div id="taskBar">
+		<div id="startButton" data-open="false">
+			<span class="startButtonDotted">
+				<img src="win93/img/icons/shell32_40.ico" alt="" />
+				<span class="startButtonText">Start</span>
+			</span>
+		</div>
+		<div id="taskBarItems">
+		</div>
+		<div id="clock">
+			<span></span>
+		</div>
+	</div>
+</body>
+</html>
