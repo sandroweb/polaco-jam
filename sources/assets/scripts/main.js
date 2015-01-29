@@ -12,42 +12,6 @@
         var scope = $('#way'),
             video = scope.find('video')[0],
             loadedCallback,
-            steps,
-            currStepIndex = -1,
-            backgroundSound,
-            totalTime = 60 * 4,
-            currentTime = 0,
-            timeInterval;
-
-        function getCurrStep() {
-            return steps[currStepIndex];
-        }
-
-        function play() {
-            video.play();
-        }
-
-        function executeLoadedCallback() {
-            loadedCallback();
-            // console.log(loadedCallback);
-        }
-
-        function load() {
-            video.onloadeddata = function () {
-                var soundLoader = new Howl({
-                    urls: ['assets/sounds/capetatech.mp3'],
-                    autoplay: true,
-                    loop: true,
-                    volume: 0,
-                    onload: function () {
-                        backgroundSound = soundLoader;
-                        executeLoadedCallback();
-                        win.backgroundSound = backgroundSound;
-                        return backgroundSound;
-                    }
-                });
-            };
-            //$.post('assets/json/data.json', null, function (r) {
             steps = [
                 {
                     "time": 15,
@@ -89,7 +53,42 @@
                     "direction": "r",
                     "description": "<br>I can feel it...<br>Press 'l' to go left<br> Press 's' to go straight<br> Press 'r' to go right"
                 }
-            ];
+            ],
+            currStepIndex = -1,
+            backgroundSound,
+            totalTime = 60 * 4,
+            currentTime = 0,
+            timeInterval;
+
+        function getCurrStep() {
+            return steps[currStepIndex];
+        }
+
+        function play() {
+            video.play();
+        }
+
+        function executeLoadedCallback() {
+            loadedCallback();
+            // console.log(loadedCallback);
+        }
+
+        function load() {
+            video.onloadeddata = function () {
+                var soundLoader = new Howl({
+                    urls: ['assets/sounds/capetatech.mp3'],
+                    autoplay: true,
+                    loop: true,
+                    volume: 0,
+                    onload: function () {
+                        backgroundSound = soundLoader;
+                        executeLoadedCallback();
+                        win.backgroundSound = backgroundSound;
+                        return backgroundSound;
+                    }
+                });
+            };
+            //$.post('assets/json/data.json', null, function (r) {
             $(video).append('<source src="assets/videos/way.mp4" type="video/mp4">');
             //});
         }
@@ -140,12 +139,17 @@
             $(video).addClass('shown');
         }
 
+        var alreadyFinished = false;
         function ontimeupdate() {
             var step = getCurrStep();
             // console.log(currStepIndex, step, steps);
             // video.pause();
-            if (video.ended === true) {
-                restart();
+            if (!alreadyFinished && (video.ended === true || video.currentTime >= 193) ) {
+                //restart();
+                alreadyFinished = true;
+                backgroundSound.stop();;
+                clearInterval(timeInterval);
+                top && top.document && top.document.body && (top.document.body.className = "");
             } else {
                 if (video.currentTime >= step.time) {
                     if (video.paused === false) {
@@ -197,6 +201,9 @@
             init: init,
             setSteps: setSteps,
             setDirection: setDirection,
+            getTotalSteps: function () {
+                return steps.length;
+            },
             getCurrStepIndex: function () {
                 return currStepIndex;
             },
