@@ -6,6 +6,7 @@
     var way,
         intro,
         terminal,
+        testLastStep,
         name = 'mAzE';
 
     way = (function () {
@@ -147,11 +148,12 @@
             if (!alreadyFinished && (video.ended === true || video.currentTime >= 193) ) {
                 //restart();
                 alreadyFinished = true;
-                backgroundSound.stop();;
+                backgroundSound.stop();
                 clearInterval(timeInterval);
                 top && top.document && top.document.body && (top.document.body.className = "");
             } else {
-                if (video.currentTime >= step.time) {
+                // console.log(step);
+                if (step && video.currentTime >= step.time) {
                     if (video.paused === false) {
                         video.pause();
                         terminal.show(function () {
@@ -174,8 +176,10 @@
         function start() {
             var maxVolume = 0.6;
             currStepIndex = 0;
-            // video.currentTime = video.duration - 10;
-            // currStepIndex = steps.length;
+            if (testLastStep) {
+                video.currentTime = steps[steps.length - 1].time - 2;
+                currStepIndex = steps.length - 1;
+            }
             play();
             timeInterval = setInterval(function () {
                 if (currentTime < totalTime) {
@@ -193,7 +197,7 @@
             video.muted = false;
             video.loop = false;
             video.ontimeupdate = ontimeupdate;
-            video.ended = restart
+            video.onended = restart;
             load();
         }
 
